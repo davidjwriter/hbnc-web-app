@@ -114,7 +114,7 @@ def finalizeShoppingList():
                 if (i.id == int(itemID)):
                     currList[itemType].remove(i)
     app.config['CURR_RECIPE'] = currList
-    return render_template('generateList.html', recipeList=currList)
+    return render_template('shoppingList.html', recipeList=currList)
 
 @app.route('/updateRecipe/<recipeID>', methods=['POST'])
 def updateRecipe(recipeID):
@@ -144,3 +144,20 @@ def updateRecipe(recipeID):
     recipe.listOfItems = listOfItems
     db.session.commit()
     return redirect(url_for('landing'))
+
+@app.route('/download')
+def downloadList():
+    print("\n\n\nIAMQWOKIGN\n\n\n\n")
+    recipeList = app.config['CURR_RECIPE']
+    newFile = os.path.join(app.config['DOCS'], 'shoppingList.txt')
+    output = open(newFile, 'w')
+    for t in recipeList:
+        output.write("\t" + str(t).upper())
+        output.write("\n\n")
+        for item in recipeList[t]:
+            output.write("   * " + str(item.name) + " " + str(item.quantity) + " " + str(item.measurement))
+            output.write("\n")
+        output.write("==========================================================================")
+    output.close()
+    retFile = 'documents/' + 'shoppingList.txt'
+    return send_file(retFile, as_attachment=True, mimetype='text/plain')

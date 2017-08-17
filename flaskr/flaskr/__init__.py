@@ -26,6 +26,7 @@ app.config.update(dict(
     CURR_RECIPE = None,
     TYPES = ["Produce", "Can", "Pasta", "Meat", "Spice", "Dairy", "Other"],
     MEASUREMENTS = ["Ounces", "Pounds", "Quantity", "Table Spoon", "Tea Spoon", "Cups"],
+    DOCS = ROOT + "flaskr/documents"
 ))
 
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
