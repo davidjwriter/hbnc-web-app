@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 if (app.debug):
     ROOT = ""
 else:
-    ROOT = "/var/www/"
+    ROOT = "/var/www/flaskr"
 app.config.update(dict(
     SECRET_KEY ='lht+)8on!@s)dw!ikizr=59h=4f8x=vziupnpnv-h=8fh)ki*g',
     PICS = ROOT + "flaskr/static/pictures",
