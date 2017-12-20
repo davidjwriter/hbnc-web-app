@@ -25,10 +25,15 @@ def uploadPicsToFolder():
     afterPics = request.files.getlist('after')
     orderNum = request.form.get('orderNum')
     flash("Thanks for Uploading Pics!")
-    cleanPics()
-    beforeDir = os.path.join(app.config['PICS']) + "/before"
-    afterDir = os.path.join(app.config['PICS']) + "/after"
+    #cleanPics()
+    #NOTE: We never clean out pics and only have 20gb of storage
+    #I think whenever we implement google drive transfer we will delete
+    #Pics from server storage
+    orderDir = os.path.join(app.config['PICS']) + "/" + str(orderNum)
+    beforeDir = os.path.join(app.config['PICS']) + "/" + str(orderNum) + "/before"
+    afterDir = os.path.join(app.config['PICS']) + "/" + str(orderNum) + "/after"
     mode = 0o777
+    supermakedirs(orderDir, mode)
     supermakedirs(beforeDir, mode)
     supermakedirs(afterDir, mode)
     counter = 0
