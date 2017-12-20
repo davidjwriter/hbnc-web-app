@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/testConfig.js') }}"></script>
 <center>
   <h2>Upload Pictures</h2>
@@ -8,15 +9,19 @@
       <label for="title">Work Order Number:</label>
       <input type="number" class="form-control" id="title" name="orderNum" required>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="beforeContainer">
       <label for="before">Before Pictures:</label>
       <input type="file" class="form-control-file" id="before" name="before" multiple>
-      <small id="fileHelp" class="form-text text-muted">Upload Before Pictures</small>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" onclick="addPictureBefore()">+</button>
+      </span>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="afterContainer">
       <label for="after">After Picture</label>
       <input type="file" class="form-control-file" id="after" name="after" multiple>
-      <small id="fileHelp" class="form-text text-muted">Upload After Pictures</small>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" onclick="addPictureAfter()">+</button>
+      </span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

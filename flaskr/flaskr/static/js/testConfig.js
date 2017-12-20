@@ -1,3 +1,37 @@
+window.counter = {};
+counter.before = 0;
+counter.after = 0;
+
+function addPictureBefore() {
+  var pic = document.createElement("input");
+  var id = "before_" + counter.before++;
+  pic.type = "file";
+  pic.id = id;
+  pic.name = id;
+  pic.style = "display:none;";
+  var container = document.getElementById("beforeContainer");
+  container.appendChild(pic);
+  $('#' + id).trigger('click');
+}
+
+function addPictureAfter() {
+  var pic = document.createElement("input");
+  var id = "after" + counter.after++;
+  pic.type = "file";
+  pic.id = id;
+  pic.name = id;
+  pic.style = "display:none;";
+  var container = document.getElementById("afterContainer");
+  container.appendChild(pic);
+  $('#' + id).trigger('click');
+}
+
+function addPictureDetail(val) {
+  var container = document.getElementById("beforeContainer");
+  var text = document.createElement("p");
+  text.innerHTML = "picture added";
+  container.appendChild(text);
+}
 //Adds mutliple ingredients
 function addEntry() {
   //Val is the pam tuning param we are adding

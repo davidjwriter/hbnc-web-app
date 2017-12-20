@@ -21,8 +21,33 @@ def uploadDocs():
 
 @app.route('/uploadPicsToFolder', methods=['POST'])
 def uploadPicsToFolder():
+    #First lets get all the before pictures
     beforePics = request.files.getlist('before')
+    extraDict = request.files
+
+    #Go through extra files to get any extra files added
+    counter = 0
+    name = "before_" + str(counter)
+    fileVal = extraDict.get(name)
+    while (fileVal is not None):
+        beforePics.append(fileVal)
+        counter += 1
+        name = "before_" + str(counter)
+        fileVal = extraDict.get(name)
+
+    #Now we can get all the after pictures
     afterPics = request.files.getlist('after')
+    extraDict = request.files
+    #Go through extra files to get any extra files added
+    counter = 0
+    name = "after" + str(counter)
+    fileVal = extraDict.get(name)
+    while (fileVal is not None):
+        afterPics.append(fileVal)
+        counter += 1
+        name = "after_" + str(counter)
+        fileVal = extraDict.get(name)
+
     orderNum = request.form.get('orderNum')
     flash("Thanks for Uploading Pics!")
     #cleanPics()
