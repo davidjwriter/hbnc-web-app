@@ -28,8 +28,9 @@ def uploadPicsToFolder():
     cleanPics()
     beforeDir = os.path.join(app.config['PICS']) + "/before"
     afterDir = os.path.join(app.config['PICS']) + "/after"
-    os.mkdir(beforeDir)
-    os.mkdir(afterDir)
+    mode = 0o777
+    supermakedirs(beforeDir, mode)
+    supermakedirs(afterDir, mode)
     counter = 0
     beforeName = orderNum + "_before_" + str(counter)
     for f in beforePics:

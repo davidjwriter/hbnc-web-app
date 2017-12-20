@@ -13,6 +13,12 @@ def cleanPics():
             except:
                 print("Could Remove File or Directory")
 
+#Creates a given directory with correct permissions
+def supermakedirs(path, mode):
+    if os.path.exists(path):
+        shutil.rmtree(path)
+    os.mkdir(path)
+    os.chmod(path, mode)
 
 #Checks if a given item is already in the database
 def isItem(itemTuple):
