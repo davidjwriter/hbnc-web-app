@@ -1,6 +1,19 @@
 from flaskr import *
 from flaskr.model import *
 
+
+#Cleans out picture folders for new uploads
+def cleanPics():
+    for directory in os.listdir(os.path.join(app.config['PICS'])):
+        try:
+            shutil.rmtree(os.path.join(app.config['PICS'],directory))
+        except:
+            try:
+                os.remove(os.path.join(app.config['PICS'],directory))
+            except:
+                print("Could Remove File or Directory")
+
+
 #Checks if a given item is already in the database
 def isItem(itemTuple):
     nm = itemTuple[0]

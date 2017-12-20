@@ -2,10 +2,54 @@ from flaskr import *
 from flaskr.lib import *
 from flaskr.model import *
 
+#Current App Workings
 @app.route('/')
 def landing():
     return render_template('landing.html')
 
+@app.route('/uploadPics')
+def uploadPics():
+    return render_template('uploadPics.html')
+
+@app.route('/checkin')
+def checkin():
+    return redirect(url_for('landing'))
+
+@app.route('/uploadDocs')
+def uploadDocs():
+    return redirect(url_for('landing'))
+
+@app.route('/uploadPicsToFolder', methods=['POST'])
+def uploadPicsToFolder():
+    beforePics = request.files.getlist('before')
+    afterPics = request.files.getlist('after')
+    orderNum = request.form.get('orderNum')
+    flash("Thanks for Uploading Pics!")
+    cleanPics()
+    beforeDir = os.path.join(app.config['PICS']) + "/before"
+    afterDir = os.path.join(app.config['PICS']) + "/after"
+    os.mkdir(beforeDir)
+    os.mkdir(afterDir)
+    counter = 0
+    beforeName = orderNum + "_before_" + str(counter)
+    for f in beforePics:
+        counter += 1
+        beforeName = orderNum + "_before_" + str(counter)
+        f.filename = createFileName(beforeName, f.filename.split(".")[len(f.filename.split(".")) - 1])
+        f.save(os.path.join(beforeDir, f.filename))
+        #f.save(beforeDir, f.filename)
+    counter = 0
+    afterName = orderNum + "_after_" + str(counter)
+    for f in afterPics:
+        counter += 1
+        afterName = orderNum + "_after_" + str(counter)
+        f.filename = createFileName(afterName, f.filename.split(".")[len(f.filename.split(".")) - 1])
+        f.save(os.path.join(afterDir, f.filename))
+        #f.save(beforeDir, f.filename)
+    return redirect(url_for('landing'))
+
+#Old App Workings
+#Left in for now just for references
 @app.route('/addRecipe')
 def addRecipe():
     ingredients = db.session.query(Item).all()
@@ -147,7 +191,6 @@ def updateRecipe(recipeID):
 
 @app.route('/download')
 def downloadList():
-    print("\n\n\nIAMQWOKIGN\n\n\n\n")
     recipeList = app.config['CURR_RECIPE']
     newFile = os.path.join(app.config['DOCS'], 'shoppingList.txt')
     output = open(newFile, 'w')
