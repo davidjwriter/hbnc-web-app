@@ -77,6 +77,7 @@ def uploadPicsToFolder():
         f.filename = createFileName(afterName, f.filename.split(".")[len(f.filename.split(".")) - 1])
         f.save(os.path.join(afterDir, f.filename))
         #f.save(beforeDir, f.filename)
+    resize(str(orderNum))
     return redirect(url_for('landing'))
 
 #Old App Workings

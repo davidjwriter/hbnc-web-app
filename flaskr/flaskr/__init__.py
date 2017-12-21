@@ -1,5 +1,7 @@
 from flask import Flask
 import threading, csv, tempfile, gzip, shutil, tarfile, os, sqlite3, argparse, subprocess, traceback, sys, io, zipfile, urllib, ssl, datetime, math
+from PIL import Image
+from resizeimage import resizeimage
 from flask import send_file, Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
@@ -28,7 +30,8 @@ app.config.update(dict(
     CURR_RECIPE = None,
     TYPES = ["Produce", "Can", "Pasta", "Meat", "Spice", "Dairy", "Other"],
     MEASUREMENTS = ["Ounces", "Pounds", "Quantity", "Table Spoon", "Tea Spoon", "Cups"],
-    DOCS = ROOT + "flaskr/documents"
+    DOCS = ROOT + "flaskr/documents",
+    MAX_SIZE = 3e5
 ))
 
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)

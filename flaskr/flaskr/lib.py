@@ -19,6 +19,37 @@ def supermakedirs(path, mode):
         os.mkdir(path)
         os.chmod(path, mode)
 
+#Resizes an image file to be between 100kb and 300kb
+def resize(orderNum):
+    beforePath = os.path.join(app.config['PICS'], orderNum + "/before")
+    afterPath = os.path.join(app.config['PICS'], orderNum + "/after")
+    resizePath(beforePath)
+    resizePath(afterPath)
+
+#Resize helper method to resize a given path
+def resizePath(beforePath):
+    for img in os.listdir(beforePath):
+        try:
+            counter = 0
+            while (os.stat(os.path.join(beforePath, img)).st_size > app.config['MAX_SIZE']):
+                with open(os.path.join(beforePath, img), 'r+b') as f:
+                    with Image.open(f) as image:
+                        width, height = image.size
+                        ratio = getRatio(width, height, counter)
+                        counter += 1
+                        cover = resizeimage.resize_cover(image, ratio)
+                        cover.save(os.path.join(beforePath, img), image.format)
+        except:
+            print("Cannot Resize Image")
+#With the photos width and height this will calculate the proper dimensions
+#For resizing the image
+def getRatio(width, height, recur):
+    if (recur == 0):
+        return [width, height]
+    recur += 1
+    return [width / recur, height / recur]
+
+
 #Checks if a given item is already in the database
 def isItem(itemTuple):
     nm = itemTuple[0]
