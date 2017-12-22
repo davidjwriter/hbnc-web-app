@@ -17,7 +17,28 @@ def checkin():
 
 @app.route('/uploadDocs')
 def uploadDocs():
+    return render_template('uploadDocs.html')
+
+@app.route('/uploadDocsToFolder', methods=['POST'])
+def uploadDocsToFolder():
+    orderNum = request.form.get('orderNum')
+    docs = request.files.getlist('docs')
+    orderDir = os.path.join(app.config['PICS']) + "/" + str(orderNum)
+    docDir = os.path.join(app.config['PICS']) + "/" + str(orderNum) + "/documents"
+    mode = 0o777
+    supermakedirs(orderDir, mode)
+    supermakedirs(docDir, mode)
+    counter = 0
+    beforeName = orderNum + "_before_" + str(counter)
+    for f in docs:
+        counter += 1
+        beforeName = orderNum + "_before_" + str(counter)
+        #f.filename = createFileName(beforeName, f.filename.split(".")[len(f.filename.split(".")) - 1])
+        f.save(os.path.join(docDir, f.filename))
+    flash("Thanks for uploading these documents!")
     return redirect(url_for('landing'))
+
+
 
 @app.route('/uploadPicsToFolder', methods=['POST'])
 def uploadPicsToFolder():

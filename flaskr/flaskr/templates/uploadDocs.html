@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/testConfig.js') }}"></script>
+<center>
+  <h2>Upload Pictures</h2>
+  <form style="width:50%" action="{{ url_for('uploadDocsToFolder') }}" method=post enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title">Work Order Number:</label>
+      <input type="number" class="form-control" id="title" name="orderNum" required>
+    </div>
+    <div class="form-group" id="beforeContainer">
+      <label for="docs">Upload Any Documents:</label>
+      <input type="file" class="form-control-file" id="docs" name="docs" multiple>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</center>
+{% endblock %}
